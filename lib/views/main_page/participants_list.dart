@@ -6,7 +6,7 @@ import 'package:split_the_bill/views/participant_row.dart';
 class ParticipantsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    final _participants = watch(pro);
+    final _participants = watch(participantProvider);
     return ListView.builder(
       itemCount: _participants.currentList.length,
       itemBuilder: (BuildContext _, int index) => ParticipantRow(

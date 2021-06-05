@@ -21,12 +21,16 @@ class MainPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
+            icon: Icon(Icons.dark_mode),
+          ),
+          IconButton(
+            onPressed: () {},
             tooltip: "Save current bill",
             icon: const Icon(Icons.save),
           ),
           IconButton(
             tooltip: "delete current participants",
-            onPressed: () => context.read(pro).reset(),
+            onPressed: () => context.read(participantProvider).reset(),
             icon: const Icon(Icons.delete_forever_outlined),
           ),
         ],
@@ -34,7 +38,7 @@ class MainPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          context.read(pro).add(Participant());
+          context.read(participantProvider).add(Participant());
         },
         tooltip: "add new participant",
         child: const Icon(Icons.add),

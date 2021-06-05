@@ -21,7 +21,8 @@ Future<void> main() async {
   );
 }
 
-final pro = ChangeNotifierProvider((ref) => ParticipantProvider());
+final participantProvider =
+    ChangeNotifierProvider((ref) => ParticipantProvider());
 
 class MyApp extends StatelessWidget {
   @override
