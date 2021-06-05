@@ -21,16 +21,19 @@ Future<void> main() async {
   );
 }
 
+final themeMode = StateProvider<ThemeMode>((ref) {
+  return ThemeMode.light;
+});
 final participantProvider =
     ChangeNotifierProvider((ref) => ParticipantProvider());
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: kAppName,
-      themeMode: ThemeMode.dark,
+      themeMode: watch(themeMode).state,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.cyan,

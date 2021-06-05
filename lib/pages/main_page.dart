@@ -20,8 +20,17 @@ class MainPage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.dark_mode),
+            tooltip:
+                'Switch to ${context.read(themeMode).state == ThemeMode.light ? 'dark' : 'light'} mode',
+            onPressed: () {
+              context.read(themeMode).state =
+                  context.read(themeMode).state == ThemeMode.light
+                      ? ThemeMode.dark
+                      : ThemeMode.light;
+            },
+            icon: Icon(context.read(themeMode).state == ThemeMode.light
+                ? Icons.dark_mode
+                : Icons.light_mode),
           ),
           IconButton(
             onPressed: () {},
