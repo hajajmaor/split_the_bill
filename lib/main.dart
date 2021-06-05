@@ -5,9 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:split_the_bill/constants.dart' show kAppName;
 import 'package:split_the_bill/models/check.dart' show CheckAdapter;
-import 'package:split_the_bill/models/participant.dart'
-    show Participant, ParticipantAdapter;
+import 'package:split_the_bill/models/participant.dart';
 import 'package:split_the_bill/pages/main_page.dart' show MainPage;
+import 'package:split_the_bill/providers/participants_provider.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
@@ -21,9 +21,7 @@ Future<void> main() async {
   );
 }
 
-final participantsProvider = Provider<List<Participant>>(
-  (ref) => [],
-);
+final pro = ChangeNotifierProvider((ref) => ParticipantProvider());
 
 class MyApp extends StatelessWidget {
   @override
@@ -31,6 +29,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: kAppName,
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.cyan,
+      ),
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),

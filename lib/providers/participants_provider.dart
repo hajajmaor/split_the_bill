@@ -1,9 +1,20 @@
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter/foundation.dart';
 import 'package:split_the_bill/models/participant.dart';
 
-class ParticipantProvider extends StateNotifier<List<Participant>> {
-  ParticipantProvider() : super([]);
-  void add(Participant p) {
-    state = [...state, p];
+class ParticipantProvider extends ChangeNotifier {
+  late final List<Participant> _participants;
+  ParticipantProvider() {
+    _participants = <Participant>[];
   }
+  void add(Participant p) {
+    _participants.add(p);
+    notifyListeners();
+  }
+
+  void reset() {
+    _participants.clear();
+    notifyListeners();
+  }
+
+  List<Participant> get currentList => _participants;
 }

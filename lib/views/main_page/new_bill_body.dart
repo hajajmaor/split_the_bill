@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:split_the_bill/constants.dart';
-import 'package:split_the_bill/views/participants_list.dart';
+import 'package:split_the_bill/views/main_page/participants_list.dart';
 
 class NewBillBody extends StatefulWidget {
   const NewBillBody({Key? key}) : super(key: key);

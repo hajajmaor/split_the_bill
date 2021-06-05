@@ -49,9 +49,8 @@ class Participant extends HiveObject {
 
   String toJson() => json.encode(toMap());
 
-  factory Participant.fromJson(String source) => Participant.fromMap(
-        json.decode(source) as Map<String, dynamic>,
-      );
+  factory Participant.fromJson(String source) =>
+      Participant.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() =>
