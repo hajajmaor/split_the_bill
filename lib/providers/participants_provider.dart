@@ -16,5 +16,20 @@ class ParticipantProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void remove(Participant p) {
+    final index = _participants.indexOf(p);
+    if (index > -1) {
+      _participants.removeAt(index);
+      notifyListeners();
+    }
+
+    notifyListeners();
+  }
+
+  void removeIndex(int index) {
+    _participants.removeAt(index);
+    notifyListeners();
+  }
+
   List<Participant> get currentList => _participants;
 }

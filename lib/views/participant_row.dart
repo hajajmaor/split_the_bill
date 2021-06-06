@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:split_the_bill/main.dart';
 import 'package:split_the_bill/models/participant.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ParticipantRow extends StatefulWidget {
-  const ParticipantRow({Key? key, required this.part}) : super(key: key);
+  const ParticipantRow({
+    Key? key,
+    required this.part,
+    // required this.index,
+  }) : super(key: key);
   final Participant part;
+  // final int index;
   @override
   _ParticipantRowState createState() => _ParticipantRowState();
 }
@@ -32,80 +40,88 @@ class _ParticipantRowState extends State<ParticipantRow> {
         borderRadius: BorderRadius.circular(20),
       ),
       padding: const EdgeInsets.all(12),
-      child: Form(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: () {
+              context.read(participantProvider).remove(widget.part);
+            },
+            icon: const Icon(Icons.remove_circle_outline_outlined),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Name',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              SizedBox(
+                width: 100,
+                child: TextFormField(
+                  onChanged: (value) => widget.part.name = value,
+                  decoration: const InputDecoration(
+                    hintText: 'Name',
+                  ),
+                  keyboardType: TextInputType.text,
+                  controller: _name,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'How Much?',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              SizedBox(
+                width: 60,
+                child: TextFormField(
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    hintText: '23.5\$',
+                  ),
+                  keyboardType: TextInputType.number,
+                  controller: _howMuch,
+                  onChanged: (value) => setState(() {
+                    widget.part.howMuch = double.tryParse(value) ?? 0;
+                  }),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 60,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Name',
+                  '+Tip',
                   style: Theme.of(context).textTheme.headline6,
                 ),
-                SizedBox(
-                  width: 100,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Name',
-                    ),
-                    keyboardType: TextInputType.text,
-                    controller: _name,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    calculatePriceWithService().toStringAsFixed(1),
                   ),
                 ),
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'How Much?',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  width: 60,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: '23.5\$',
-                    ),
-                    keyboardType: TextInputType.number,
-                    controller: _howMuch,
-                    onChanged: (value) => setState(() {}),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 60,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '+Tip',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    child: Text(
-                      calculatePriceWithService().toStringAsFixed(1),
-                    ),
-                  ),
-                ],
+          ),
+          SizedBox(
+            width: 20,
+            child: Checkbox(
+              value: widget.part.payed ?? false,
+              onChanged: (value) => setState(
+                () => widget.part.payed = value,
               ),
             ),
-            SizedBox(
-              width: 20,
-              child: Checkbox(
-                value: widget.part.payed ?? false,
-                onChanged: (value) => setState(
-                  () => widget.part.payed = value,
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
