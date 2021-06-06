@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:split_the_bill/constants.dart';
+import 'package:split_the_bill/main.dart';
 import 'package:split_the_bill/views/main_page/participants_list.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class NewBillBody extends StatefulWidget {
   const NewBillBody({Key? key}) : super(key: key);
@@ -91,6 +93,38 @@ class _NewBillBodyState extends State<NewBillBody> {
               Expanded(
                 child: ParticipantsList(),
               ),
+
+              ///total bill
+              Container(
+                color: Colors.grey[300],
+                padding: const EdgeInsets.all(16),
+                height: 100,
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          const Text('Total bill'),
+                          Text(
+                              '${context.read(participantStateProvider).getTotalBill}')
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const Text('Total bill+Tip'),
+                          Text(
+                            context
+                                .read(participantStateProvider)
+                                .getTotalBill
+                                .toStringAsFixed(1),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         ),

@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
           ),
           IconButton(
             tooltip: "delete current participants",
-            onPressed: () => context.read(participantProvider).reset(),
+            onPressed: () => context.read(participantStateProvider).clear(),
             icon: const Icon(Icons.delete_forever_outlined),
           ),
         ],
@@ -47,7 +47,7 @@ class MainPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          context.read(participantProvider).add(Participant());
+          context.read(participantStateProvider).add(Participant());
         },
         tooltip: "add new participant",
         child: const Icon(Icons.add),

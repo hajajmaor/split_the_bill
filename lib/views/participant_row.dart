@@ -45,7 +45,7 @@ class _ParticipantRowState extends State<ParticipantRow> {
         children: [
           IconButton(
             onPressed: () {
-              context.read(participantProvider).remove(widget.part);
+              context.read(participantStateProvider).remove(widget.part);
             },
             icon: const Icon(Icons.remove_circle_outline_outlined),
           ),
@@ -87,9 +87,11 @@ class _ParticipantRowState extends State<ParticipantRow> {
                   ),
                   keyboardType: TextInputType.number,
                   controller: _howMuch,
-                  onChanged: (value) => setState(() {
-                    widget.part.howMuch = double.tryParse(value) ?? 0;
-                  }),
+                  onChanged: (value) {
+                    setState(() {
+                      widget.part.howMuch = double.tryParse(value) ?? 0;
+                    });
+                  },
                 ),
               ),
             ],

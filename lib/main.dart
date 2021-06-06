@@ -24,8 +24,13 @@ Future<void> main() async {
 final themeMode = StateProvider<ThemeMode>((ref) {
   return ThemeMode.light;
 });
-final participantProvider =
-    ChangeNotifierProvider((ref) => ParticipantProvider());
+final participantStateProvider = AutoDisposeStateNotifierProvider<
+    ParticipantStateProvider,
+    List<Participant>>((_) => ParticipantStateProvider());
+
+// final participantProvider = ChangeNotifierProvider(
+//   (ref) => ParticipantProvider(),
+// );
 
 class MyApp extends ConsumerWidget {
   @override
