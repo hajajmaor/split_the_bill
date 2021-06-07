@@ -12,6 +12,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(
@@ -19,19 +20,22 @@ class MainPage extends StatelessWidget {
           // style: TextStyle(color: Colors.white),
         ),
         actions: [
-          IconButton(
-            tooltip:
-                'Switch to ${context.read(themeMode).state == ThemeMode.light ? 'dark' : 'light'} mode',
-            onPressed: () {
-              context.read(themeMode).state =
-                  context.read(themeMode).state == ThemeMode.light
-                      ? ThemeMode.dark
-                      : ThemeMode.light;
-            },
-            icon: Icon(context.read(themeMode).state == ThemeMode.light
-                ? Icons.dark_mode
-                : Icons.light_mode),
-          ),
+          if (context.read(themeMode).state == ThemeMode.system)
+            Container()
+          else
+            IconButton(
+              tooltip:
+                  'Switch to ${context.read(themeMode).state == ThemeMode.light ? 'dark' : 'light'} mode',
+              onPressed: () {
+                context.read(themeMode).state =
+                    context.read(themeMode).state == ThemeMode.light
+                        ? ThemeMode.dark
+                        : ThemeMode.light;
+              },
+              icon: Icon(context.read(themeMode).state == ThemeMode.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode),
+            ),
           IconButton(
             onPressed: () {},
             tooltip: "Save current bill",
@@ -39,7 +43,7 @@ class MainPage extends StatelessWidget {
           ),
           IconButton(
             tooltip: "delete current participants",
-            onPressed: () => context.read(participantStateProvider).clear(),
+            onPressed: () => context.read(participantFunctions).reset(),
             icon: const Icon(Icons.delete_forever_outlined),
           ),
         ],
@@ -47,12 +51,51 @@ class MainPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
-          context.read(participantStateProvider).add(Participant());
+          context.read(participantFunctions).add(Participant());
         },
         tooltip: "add new participant",
         child: const Icon(Icons.add),
       ),
-      body: const NewBillBody(),
+      body: Column(
+        children: [
+          const Expanded(
+            child: NewBillBody(),
+          ),
+
+          ///total bill
+          Container(
+            color: Colors.grey[300],
+            padding: const EdgeInsets.all(16),
+            height: 70,
+            child: Center(
+              child: Consumer(
+                builder: (_, watch, __) {
+                  final _part = watch(participantFunctions);
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          const Text('Total bill'),
+                          Text('${_part.getTotalBill}')
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const Text('Total bill+Tip'),
+                          Text(
+                            (_part.getTotalBill * 1.1).toStringAsFixed(1),
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

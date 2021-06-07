@@ -6,23 +6,27 @@ part 'participant.g.dart';
 
 @HiveType(typeId: 1)
 class Participant extends HiveObject {
+  static int _runIds = 0;
   @HiveField(0)
   String? name;
   @HiveField(1)
   double? howMuch;
   @HiveField(2)
   bool? payed;
+  @HiveField(3)
+  late final int id;
 
   Participant({
     this.name,
     this.howMuch,
     this.payed,
-  });
+  }) : id = ++_runIds;
 
   Participant copyWith({
     String? name,
     double? howMuch,
     bool? payed,
+    int? id,
   }) {
     return Participant(
       name: name ?? this.name,
@@ -36,25 +40,16 @@ class Participant extends HiveObject {
       'name': name,
       'howMuch': howMuch,
       'payed': payed,
+      'id': id,
     };
-  }
-
-  factory Participant.fromMap(Map<String, dynamic> map) {
-    return Participant(
-      name: map['name'] as String,
-      howMuch: map['howMuch'] as double,
-      payed: map['payed'] as bool,
-    );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Participant.fromJson(String source) =>
-      Participant.fromMap(json.decode(source) as Map<String, dynamic>);
-
   @override
-  String toString() =>
-      'Participant(name: $name, howMuch: $howMuch, payed: $payed)';
+  String toString() {
+    return 'Participant(name: $name, howMuch: $howMuch, payed: $payed, id: $id)';
+  }
 
   @override
   bool operator ==(Object other) {
@@ -63,9 +58,12 @@ class Participant extends HiveObject {
     return other is Participant &&
         other.name == name &&
         other.howMuch == howMuch &&
-        other.payed == payed;
+        other.payed == payed &&
+        other.id == id;
   }
 
   @override
-  int get hashCode => name.hashCode ^ howMuch.hashCode ^ payed.hashCode;
+  int get hashCode {
+    return name.hashCode ^ howMuch.hashCode ^ payed.hashCode ^ id.hashCode;
+  }
 }

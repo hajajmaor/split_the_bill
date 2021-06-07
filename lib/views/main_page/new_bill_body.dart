@@ -93,38 +93,6 @@ class _NewBillBodyState extends State<NewBillBody> {
               Expanded(
                 child: ParticipantsList(),
               ),
-
-              ///total bill
-              Container(
-                color: Colors.grey[300],
-                padding: const EdgeInsets.all(16),
-                height: 100,
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          const Text('Total bill'),
-                          Text(
-                              '${context.read(participantStateProvider).getTotalBill}')
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          const Text('Total bill+Tip'),
-                          Text(
-                            context
-                                .read(participantStateProvider)
-                                .getTotalBill
-                                .toStringAsFixed(1),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              )
             ],
           ),
         ),

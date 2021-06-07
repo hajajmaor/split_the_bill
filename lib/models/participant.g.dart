@@ -20,19 +20,21 @@ class ParticipantAdapter extends TypeAdapter<Participant> {
       name: fields[0] as String?,
       howMuch: fields[1] as double?,
       payed: fields[2] as bool?,
-    );
+    )..id = fields[3] as int;
   }
 
   @override
   void write(BinaryWriter writer, Participant obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
       ..write(obj.howMuch)
       ..writeByte(2)
-      ..write(obj.payed);
+      ..write(obj.payed)
+      ..writeByte(3)
+      ..write(obj.id);
   }
 
   @override

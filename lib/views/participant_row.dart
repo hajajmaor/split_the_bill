@@ -45,7 +45,7 @@ class _ParticipantRowState extends State<ParticipantRow> {
         children: [
           IconButton(
             onPressed: () {
-              context.read(participantStateProvider).remove(widget.part);
+              context.read(participantFunctions).remove(widget.part);
             },
             icon: const Icon(Icons.remove_circle_outline_outlined),
           ),

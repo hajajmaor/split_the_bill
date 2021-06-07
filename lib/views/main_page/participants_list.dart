@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:split_the_bill/main.dart';
 import 'package:split_the_bill/models/participant.dart';
 import 'package:split_the_bill/views/participant_row.dart';
@@ -21,9 +22,14 @@ class ParticipantsList extends ConsumerWidget {
     //     );
     //   },
     // );
-    final List<Participant> _participants = watch(participantStateProvider);
-    return ListView(
-      children: _participants.map((e) => ParticipantRow(part: e)).toList(),
+    final List<Participant> _participants =
+        watch(participantFunctions).currentList;
+    // print(_participants.length);
+
+    return ListView.builder(
+      itemCount: _participants.length,
+      itemBuilder: (context, index) =>
+          ParticipantRow(part: _participants[index]),
     );
   }
 }
