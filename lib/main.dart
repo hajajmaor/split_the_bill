@@ -25,9 +25,8 @@ Future<void> main() async {
 final themeMode = StateProvider<ThemeMode>(
   (ref) => kIsWeb ? ThemeMode.light : ThemeMode.system,
 );
-final participantFunctions =
+final participantsProvider =
     ChangeNotifierProvider<ParticipantProvider>((_) => ParticipantProvider());
-
 // late Provider<List<Participant>> participantsProvider;
 //     Provider<List<Participant>>(
 //   (ref)

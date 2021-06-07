@@ -45,7 +45,7 @@ class _ParticipantRowState extends State<ParticipantRow> {
         children: [
           IconButton(
             onPressed: () {
-              context.read(participantFunctions).remove(widget.part);
+              context.read(participantsProvider).remove(widget.part);
             },
             icon: const Icon(Icons.remove_circle_outline_outlined),
           ),
@@ -60,7 +60,10 @@ class _ParticipantRowState extends State<ParticipantRow> {
               SizedBox(
                 width: 100,
                 child: TextFormField(
-                  onChanged: (value) => widget.part.name = value,
+                  onChanged: (value) {
+                    widget.part.name = value;
+                    widget.part.save();
+                  },
                   decoration: const InputDecoration(
                     hintText: 'Name',
                   ),
@@ -90,6 +93,7 @@ class _ParticipantRowState extends State<ParticipantRow> {
                   onChanged: (value) {
                     setState(() {
                       widget.part.howMuch = double.tryParse(value) ?? 0;
+                      widget.part.save();
                     });
                   },
                 ),
@@ -119,7 +123,10 @@ class _ParticipantRowState extends State<ParticipantRow> {
             child: Checkbox(
               value: widget.part.payed ?? false,
               onChanged: (value) => setState(
-                () => widget.part.payed = value,
+                () {
+                  widget.part.payed = value;
+                  // widget.part.save();
+                },
               ),
             ),
           )

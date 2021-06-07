@@ -23,7 +23,7 @@ class ParticipantsList extends ConsumerWidget {
     //   },
     // );
     final List<Participant> _participants =
-        watch(participantFunctions).currentList;
+        watch(participantsProvider).currentList;
     // print(_participants.length);
 
     return ListView.builder(
